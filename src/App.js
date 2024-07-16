@@ -8,6 +8,7 @@ import CryptoJS from "crypto-js";
 
 const SubscriptionPage = () => {
   const [phone, setPhone] = useState("");
+  const [error, setError] = useState("");
 
   const endpoint = "https://d3398n96t5wqx9.cloudfront.net/UsersAquisition/";
   const accessToken = "0e186445-0647-417c-ae27-8098533f1914";
@@ -77,6 +78,10 @@ const SubscriptionPage = () => {
   };
   const handleSubmit = async () => {
     makeApiRequest(requestData);
+    setError(
+      "The number you have entered is not correct, please check the number and try again"
+    );
+    setPhone("");
   };
 
   return (
@@ -126,23 +131,31 @@ const SubscriptionPage = () => {
               <input
                 type="text"
                 id="mobile-number"
-                onChange={(e) => setPhone(e.target.value)}
+                onChange={(e) => {
+                  setError("");
+                  setPhone(e.target.value);
+                }}
                 className="flex-1 ml-4 outline-none text-xl font-normal placeholder:text-gray-500 placeholder:text-4xl"
                 placeholder="_ _ _ _ _ _ _ _ _ _ "
               />
             </div>
           </div>
-          <button
-            onClick={handleSubmit}
-            className={`mt-12 font-bold py-4 rounded-lg  text-2xl ${
-              phone.length == 10
-                ? "text-white bg-gradient-to-r from-blue-900 to-blue-600"
-                : "bg-gray-300 text-gray-500"
-            }`}
-            disabled={phone.length != 10}
-          >
-            CONTINUE
-          </button>
+          <div className="mt-12">
+            <p className=" text-red-500 font-medium leading-4 my-2">
+              {error ? error : ""}
+            </p>
+            <button
+              onClick={handleSubmit}
+              className={` font-bold w-full py-4 rounded-lg  text-2xl ${
+                phone.length == 10
+                  ? "text-white bg-gradient-to-r from-blue-900 to-blue-600"
+                  : "bg-gray-300 text-gray-500"
+              }`}
+              disabled={phone.length != 10}
+            >
+              CONTINUE
+            </button>
+          </div>
         </div>
         <div className="mt-4 text-xs text-gray-500">
           <p>
